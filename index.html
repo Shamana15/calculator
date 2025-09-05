@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Realistic Calculator</title>
+  <link rel="stylesheet" href="a.css" />
+</head>
+<body>
+
+  <div class="calculator" role="region" aria-label="Calculator">
+    <div class="display" id="display" aria-live="polite" aria-atomic="true">0</div>
+    <div class="buttons">
+      <button class="clear" onclick="clearDisplay()" aria-label="Clear">C</button>
+      <button onclick="appendValue('%')" aria-label="Percent">%</button>
+      <button onclick="appendValue('/')" aria-label="Divide">÷</button>
+      <button class="operator" onclick="appendValue('*')" aria-label="Multiply">×</button>
+
+      <button onclick="appendValue('7')" aria-label="Seven">7</button>
+      <button onclick="appendValue('8')" aria-label="Eight">8</button>
+      <button onclick="appendValue('9')" aria-label="Nine">9</button>
+      <button class="operator" onclick="appendValue('-')" aria-label="Minus">−</button>
+
+      <button onclick="appendValue('4')" aria-label="Four">4</button>
+      <button onclick="appendValue('5')" aria-label="Five">5</button>
+      <button onclick="appendValue('6')" aria-label="Six">6</button>
+      <button class="operator" onclick="appendValue('+')" aria-label="Plus">+</button>
+
+      <button onclick="appendValue('1')" aria-label="One">1</button>
+      <button onclick="appendValue('2')" aria-label="Two">2</button>
+      <button onclick="appendValue('3')" aria-label="Three">3</button>
+      <button class="equal" onclick="calculate()" aria-label="Equals">=</button>
+
+      <button class="span-two" onclick="appendValue('0')" aria-label="Zero">0</button>
+      <button onclick="appendValue('.')" aria-label="Decimal point">.</button>
+    </div>
+  </div>
+
+  <script>
+    const display = document.getElementById('display');
+
+    function appendValue(value) {
+      if (display.innerText === '0' || display.innerText === 'Error') {
+        display.innerText = value;
+      } else {
+        display.innerText += value;
+      }
+    }
+
+    function clearDisplay() {
+      display.innerText = '0';
+    }
+
+    function calculate() {
+      try {
+        let expression = display.innerText.replace(/÷/g, '/').replace(/×/g, '*');
+        expression = expression.replace(/%/g, '/100');
+        const result = eval(expression);
+        display.innerText = Number.isFinite(result) ? result : 'Error';
+      } catch {
+        display.innerText = 'Error';
+      }
+    }
+  </script>
+
+</body>
+</html>
